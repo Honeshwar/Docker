@@ -1,0 +1,28 @@
+#stage 1
+#  making vm, 
+# firstly os and js RTE is installed
+FROM node:alpine as builder
+
+# copy dependency file and install dependency
+WORKDIR /home/app
+
+COPY package*.json .
+RUN npm install
+
+#  copy code files 
+COPY .env .
+COPY main.js .
+# The ENV instruction in a Dockerfile is used to set environment variables inside a Docker container.
+# ENV is a command used to set environment variables.
+# If you use both ENV in the Dockerfile and a .env file, here’s what happens:
+
+#     1. Priority Order
+#     The values are applied in the following order (lowest to highest priority):
+    
+#     Dockerfile ENV instruction (lowest priority)
+#     .env file (if used with docker-compose or --env-file)
+#     Environment variables passed via docker run -e (highest priority)
+ENV PORT=5000
+EXPOSE 5000
+
+CMD [ "node", "main.js" ]

@@ -1,0 +1,29 @@
+name: express-backend
+
+services:
+  backend:
+    build: 
+      context: .
+      dockerfile: dockerfile
+    ports: #expose
+    - "5000:5000"
+
+  db:
+    image: postgres:17.3-alpine3.21
+    environment:  
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    # ports: no need to expose only use in inside same network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    # ports: no need to expose only use in inside same network
+    volumes:
+      - redis-data:/data # getting fromm documentation of redis
+
+volumes:
+  postgres-data:
+  redis-data:
